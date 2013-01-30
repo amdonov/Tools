@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    VERSION:					0.5
+    DESCRIPTION:		Structured Threat Information eXpression (STIX) - Campaign - Schematic implementation for the Campaign construct within the STIX structured cyber threat expression 		language architecture.
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cybox="http://cybox.mitre.org/cybox_v1" xmlns:cyboxCommon="http://cybox.mitre.org/Common_v1" xmlns:SystemObj="http://cybox.mitre.org/objects#SystemObject" xmlns:UserAccountObj="http://cybox.mitre.org/objects#UserAccountObject" xmlns:stixCommon="http://stix.mitre.org/Common" xmlns:TTP="http://stix.mitre.org/TTP" xmlns:campaign="http://stix.mitre.org/Campaign" xmlns:TA="http://stix.mitre.org/ThreatActor" xmlns:marking="http://data-marking.mitre.org" xmlns:indicator="http://stix.mitre.org/Indicator" xmlns:incident="http://stix.mitre.org/Incident" targetNamespace="http://stix.mitre.org/Campaign" elementFormDefault="qualified" attributeFormDefault="unqualified" version="0.5" xml:lang="English">
+	<xs:import namespace="http://cybox.mitre.org/cybox_v1" schemaLocation="http://cybox.mitre.org/XMLSchema/cybox_core_v1.0.xsd"/>
+	<xs:import namespace="http://cybox.mitre.org/Common_v1" schemaLocation="http://cybox.mitre.org/XMLSchema/cybox_common_types_v1.0.xsd"/>
+	<xs:import namespace="http://cybox.mitre.org/objects#SystemObject" schemaLocation="http://cybox.mitre.org/XMLSchema/objects/System/System_Object_1.3.xsd"/>
+	<xs:import namespace="http://cybox.mitre.org/objects#UserAccountObject" schemaLocation="http://cybox.mitre.org/XMLSchema/objects/User_Account/User_Account_Object_1.2.xsd"/>
+	<xs:import namespace="http://stix.mitre.org/Indicator" schemaLocation="STIX-Indicator_v1.1.xsd"/>
+	<xs:import namespace="http://stix.mitre.org/Common" schemaLocation="STIX-Common_v0.2.xsd"/>
+	<xs:import namespace="http://stix.mitre.org/TTP" schemaLocation="STIX-TTP_v0.6.xsd"/>
+	<xs:import namespace="http://stix.mitre.org/ThreatActor" schemaLocation="STIX-ThreatActor_v0.5.1.xsd"/>
+	<xs:import namespace="http://stix.mitre.org/Incident" schemaLocation="STIX-Incident_v0.3.1.xsd"/>
+	<xs:import namespace="http://data-marking.mitre.org" schemaLocation="Data_Marking_v0.5.xsd"/>
+	<xs:element name="Campaign" type="campaign:CampaignType">
+		<xs:annotation>
+			<xs:documentation>The Campaign field characterizes  a single cyber threat Campaign.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="CampaignType">
+		<xs:annotation>
+			<xs:documentation>The CampaignType characterizes  a single cyber threat Campaign.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Names" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Names field specifies Names used to identify this Campaign.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Name" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>The Name field specifies a Name used to identify this Campaign. This field can be used to capture various aliases used to identify this Campaign.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:string">
+										<xs:attribute name="NamingContext" type="xs:string">
+											<xs:annotation>
+												<xs:documentation>Specifies the context using this Name. This would typically be the entity that assigned this Name or organizations that recognize and use this Name.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Intent" type="stixCommon:IntentType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Intent field characterizes the intent of this cyber threat Campaign.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RelatedTTPs" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The RelatedTTPs field specifies TTPs asserted to be related to this cyber threat Campaign.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RelatedTTP" type="campaign:RelatedTTPType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>The RelatedTTP field specifies a single TTP asserted to be related to this cyber threat Campaign.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RelatedIncidents" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The RelatedIncidents field identifies or characterizes one or more Incidents related to this cyber threat Campaign. </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RelatedIncident" type="incident:RelatedIncidentType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Identifies or characterizes an Incident related to this Campaign. </xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RelatedIndicators" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The RelatedIndicators field identifies or characterizes one or more cyber threat Indicators related to this cyber threat Campaign.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RelatedIndicator" type="campaign:RelatedIndicatorType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>The RelatedIndicator field identifies or characterizes a cyber threat Indicator related to this Campaign. Such loose associations between Campaigns and Indicators are typically part of the early phases of Campaign identification and characterization. As the Campaign characterization matures these associations are often used to identify relevant TTPs and/or Incidents associated with the Campaign.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Attribution" type="campaign:AttributionType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The Attribution field specifies assertions of attibuted Threat Actors for this cyber threat Campaign.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AssociatedCampaigns" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The AssociatedCampaigns field specifies other cyber threat Campaigns asserted to be associated with this cyber threat Campaign.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AssociatedCampaign" type="campaign:AssociatedCampaignType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>The AssociatedCampaign field specifies a single other cyber threat Campaign asserted to be associated with this cyber threat Campaign.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Confidence" type="stixCommon:ConfidenceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Confidence field characterizes the level of confidence held in the characterization of this Campaign.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Activity" type="stixCommon:ActivityType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The Activity field characterizes actions taken in regards to this ThreatActor. This field is defined as of type ActivityType which is an abstract type enabling the extension and inclusion of various formats of Activity characterization.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="InformationSource" type="stixCommon:InformationSourceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The InformationSource field details the source of this entry.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:QName">
+			<xs:annotation>
+				<xs:documentation>Specifies a globally unique identifier for this cyber threat Campaign.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="idref" type="xs:QName">
+			<xs:annotation>
+				<xs:documentation>Specifies a globally unique identifier for a cyber threat Campaign specified elsewhere.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="version" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Specifies the relevant STIX-Campaign schema version for this content.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<!---->
+	<xs:complexType name="RelatedTTPType">
+		<xs:annotation>
+			<xs:documentation>The RelatedTTPType specifies a single TTP asserted to be related to this cyber threat Campaign.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="TTP:TTPType">
+				<xs:sequence>
+					<xs:element name="RelatedTTPConfidence" type="stixCommon:ConfidenceType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The RelatedTTPConfidence field specifies a level of confidence in the assertion that this TTP is actually related to the specific Campaign.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!---->
+	<xs:complexType name="AttributionType">
+		<xs:annotation>
+			<xs:documentation>AttributionType specifies suspected Threat Actors attributed to a given Campaign.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ThreatActor" type="campaign:AttributedThreatActorType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The ThreatActor field specifies a Threat Actor asserted to be attributed for a Campaign. The specification of multiple ThreatActor entries for a single Attribution entry would be interpreted as a logical AND composition of the set of specified ThreatActors with a shared Confidence and Information Source. This would be used to assert attribution to a combined set of ThreatActors.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Confidence" type="stixCommon:ConfidenceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Confidence field specifies a level of confidence held in the associated assertion.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="InformationSource" type="stixCommon:InformationSourceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The InformationSource field details the source of this entry.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AttributedThreatActorType">
+		<xs:annotation>
+			<xs:documentation>The AttributedThreatActorType specifies a Threat Actor asserted to be attributed for a Campaign.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="TA:ThreatActorType">
+				<xs:sequence>
+					<xs:element name="AttributedThreatActorConfidence" type="stixCommon:ConfidenceType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AssociatedCampaignType">
+		<xs:annotation>
+			<xs:documentation>The AssociatedCampaignType specifies a single other cyber threat Campaign asserted to be associated with this cyber threat Campaign.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="campaign:CampaignType">
+				<xs:sequence>
+					<xs:element name="AssociatedCampaignConfidence" type="stixCommon:ConfidenceType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The AssociatedCampaignConfidence field specifies the level of confidence held in the asserted association of this cyber threat Campaign.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="associationType" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Specifies the type of association between the two Campaigns.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!---->
+	<xs:complexType name="RelatedIndicatorType">
+		<xs:complexContent>
+			<xs:extension base="indicator:IndicatorType">
+				<xs:sequence>
+					<xs:element name="RelatedIndicatorConfidence" type="stixCommon:ConfidenceType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The RelatedIndicatorConfidence field characterizes the level of confidence held in the validity of this asserted correlation between this Campaign and the associated Indicator.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!---->
+</xs:schema>

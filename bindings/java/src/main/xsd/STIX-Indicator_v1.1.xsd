@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    VERSION:					1.1
+    DESCRIPTION:		Structured Threat Information eXpression (STIX) - Indicator - Schematic implementation for the Indicator construct within the STIX structured cyber threat expression language architecture.
+-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:indicator="http://stix.mitre.org/Indicator" xmlns:iodef="urn:ietf:params:xml:ns:iodef-1.0" xmlns:cybox="http://cybox.mitre.org/cybox_v1" xmlns:cyboxCommon="http://cybox.mitre.org/Common_v1" xmlns="http://www.us-cert.gov/schema/indicator/0.4#" xmlns:stixCommon="http://stix.mitre.org/Common" xmlns:TTP="http://stix.mitre.org/TTP" xmlns:marking="http://data-marking.mitre.org" xmlns:COA="http://stix.mitre.org/COA" targetNamespace="http://stix.mitre.org/Indicator" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1">
+	<xsd:import namespace="http://cybox.mitre.org/cybox_v1" schemaLocation="http://cybox.mitre.org/XMLSchema/cybox_core_v1.0.xsd"/>
+	<xsd:import namespace="http://cybox.mitre.org/Common_v1" schemaLocation="http://cybox.mitre.org/XMLSchema/cybox_common_types_v1.0.xsd"/>
+	<xsd:import namespace="urn:ietf:params:xml:ns:iodef-1.0" schemaLocation="http://www.iana.org/assignments/xml-registry/schema/iodef-1.0.xsd"/>
+	<xsd:import namespace="http://stix.mitre.org/Common" schemaLocation="STIX-Common_v0.2.xsd"/>
+	<xsd:import namespace="http://stix.mitre.org/TTP" schemaLocation="STIX-TTP_v0.6.xsd"/>
+	<xsd:import namespace="http://stix.mitre.org/COA" schemaLocation="STIX-COA_v0.3.1.xsd"/>
+	<xsd:import namespace="http://data-marking.mitre.org" schemaLocation="Data_Marking_v0.5.xsd"/>
+	<xsd:element name="Indicator" type="indicator:IndicatorType"/>
+	<xsd:complexType name="IndicatorType">
+		<xsd:annotation>
+			<xsd:documentation>Light-weight object for capturing metadata relating to indicators. If content producers choose 
+                to include optional cybox observable elements then this 'indicator' element also serves as a 
+                wrapper for that observable, providing incident-specific context to the observable.
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="IndicatorType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Specifies the indicator-type for this Indicator. The value can either be directly entered here or a reference to an external value in a controlled vocabulary can be provided in the optional indicatorTypeRef field.
+                    </xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:simpleContent>
+						<xsd:extension base="xsd:string">
+							<xsd:attribute name="indicatorTypeRef" type="xsd:anyURI">
+								<xsd:annotation>
+									<xsd:documentation>This field specifies a reference to an indicator-type value reference. The value is a QName or URL that should reference a term in a controlled vocabulary which is understood by both the producing and consuming parties.</xsd:documentation>
+								</xsd:annotation>
+							</xsd:attribute>
+						</xsd:extension>
+					</xsd:simpleContent>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Name" type="xsd:token" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Specifies a name for this Indicator.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="AlternativeID-Alias" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Specifies an alternative identifier (or alias) for the cyber threat Indicator.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Description" type="cyboxCommon:StructuredTextType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Specifies a description for this Indicator.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ValidTimePosition" type="indicator:ValidTimeType" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Specifies the time window for which this Indicator is valid.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:choice>
+				<xsd:annotation>
+					<xsd:documentation> Content creators should either create a "simple indicator" containing one observable, or a "composite indicator" containing multiple indicators.
+                    </xsd:documentation>
+				</xsd:annotation>
+				<xsd:element name="Observables" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Specifies the relevant cyber observables for this Indicator.</xsd:documentation>
+					</xsd:annotation>
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="Observable" type="cybox:ObservableType" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation>Specifies a relevant cyber observable for this Indicator.</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="CompositeIndicatorExpression" type="indicator:CompositeIndicatorExpressionType" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Specifies a multipartite composite Indicator.</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:choice>
+			<xsd:element name="IndicatedTTP" type="indicator:IndicatedTTPType" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Specifies the relevant TTP indicated by this Indicator.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="KillChainPhases" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Specifies relevant kill chain phases indicated by this Indicator.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="kill-chain-phase" maxOccurs="unbounded">
+							<xsd:annotation>
+								<xsd:documentation>Specifies a relevant kill chain phase indicated by this Indicator.</xsd:documentation>
+							</xsd:annotation>
+							<xsd:complexType>
+								<xsd:complexContent>
+									<xsd:extension base="stixCommon:KillChainPhaseType">
+										<xsd:attribute name="killChainID" type="xsd:QName">
+											<xsd:annotation>
+												<xsd:documentation>This field specifies the ID for the relevant defined kill chain.</xsd:documentation>
+											</xsd:annotation>
+										</xsd:attribute>
+										<xsd:attribute name="killChainName" type="xsd:string">
+											<xsd:annotation>
+												<xsd:documentation>This field specifies the descriptive name of the relevant kill chain.</xsd:documentation>
+											</xsd:annotation>
+										</xsd:attribute>
+									</xsd:extension>
+								</xsd:complexContent>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="TestMechanisms" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>The TestMechanisms field specifies Test Mechanisms effective at identifying the cyber Observables specified in this cyber threat Indicator.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="TestMechanism" type="indicator:TestMechanismType" maxOccurs="unbounded">
+							<xsd:annotation>
+								<xsd:documentation>The TestMechanism field specifies a Test Mechanism effective at identifying the cyber Observables specified in this cyber threat Indicator. This field is defined as of type TestMechanismType which is an abstract type enabling the extension and inclusion of various formats of Test Mechanism specifications.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="LikelyImpact" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Specifies the likely potential impact within the relevant context if this Indicator were to occur. This is typically local to an Indicator consumer and not typically shared. NOTE: This structure potentially still needs fleshed out more for structured characterization of impact.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="ImpactDescription" type="cyboxCommon:StructuredTextType">
+							<xsd:annotation>
+								<xsd:documentation>The ImpactDescription field describes the likely potential impact within the relevant context if this Indicator were to occur. </xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="Confidence" type="stixCommon:ConfidenceType" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Specifies a level of confidence held in the accuracy of this assertion.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="SuggestedCOAs" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>The SuggestedCOAs field specifies suggested Courses of Action for this cyber threat Indicator.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="SuggestedCOA" type="COA:COAType" maxOccurs="unbounded">
+							<xsd:annotation>
+								<xsd:documentation>The SuggestedCOA field specifies a suggested Course of Action for this cyber threat Indicator.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Handling" type="marking:MarkingType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Specifies the relevant handling guidance for this Indicator.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Confidence" type="stixCommon:ConfidenceType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Specifies a level of confidence held in the accuracy of the Indicator's Observable to TTP relationship assertion.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Sightings" type="indicator:sightingsType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Characterizes a set of sighting reports for this Indicator.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="RelatedIndicators" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>The RelatedIndicators field is optional and enables content producers to express a relationship between the enclosing indicator (i.e., the subject of the relationship) and a disparate indicator (i.e., the object side of the relationship).</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="RelatedIndicator" type="indicator:RelatedIndicatorType" maxOccurs="unbounded">
+							<xsd:annotation>
+								<xsd:documentation>The RelatedIndicator field is optional and enables content producers to express a relationship between the enclosing indicator (i.e., the subject of the relationship) and a disparate indicator (i.e., the object side of the relationship).</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Producer" type="stixCommon:InformationSourceType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>The Producer field details the source of this entry.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ExtendedInformation" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>This is a container to hold any additional information for an indicator, as specified by the content producer.
+                    </xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:any namespace="##other" processContents="lax" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:QName" use="optional">
+			<xsd:annotation>
+				<xsd:documentation>Specifies a unique ID for this Indicator. </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="idref" type="xsd:QName">
+			<xsd:annotation>
+				<xsd:documentation>Specifies a reference to the ID of an Indicator specified elsewhere.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="version" type="xsd:string">
+			<xsd:annotation>
+				<xsd:documentation>Specifies the relevant STIX-Indicator schema version for this content.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:complexType name="ValidTimeType">
+		<xsd:annotation>
+			<!-- NOTE: this is a very simple representation, if desired, the schema could import gml temporal semantics (see gml:timeposition here: http://schemas.opengis.net/gml/3.1.1/base/temporal.xsd). -->
+			<xsd:documentation>A basic representation of a temporal window when the thing (e.g., indicator) is valid.
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<!-- TODO: see if there is a way to use xsd to ensure either a start-time or end-time appear. -->
+			<xsd:element name="start-time" type="xsd:dateTime" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>If not present, then client should assume infinity (i.e., temporal window is only bounded by the end-time).
+                    </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="end-time" type="xsd:dateTime" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>If not present, then client should assume infinity (i.e., temporal window is only bounded by the start-time).
+                    </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- *************************************************************************** -->
+	<!-- *  definitions to allow for relationships (both logical boolean           * -->
+	<!-- *  combinations and custom relationships) of indicators                   * -->
+	<!-- *************************************************************************** -->
+	<xsd:complexType name="CompositeIndicatorExpressionType">
+		<xsd:annotation>
+			<xsd:documentation>Type for allowing content creators to create composite indicator expressions using basic boolean logic.
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element ref="indicator:Indicator" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>The indicator field specifies one cyber threat indicator asserting a relationship between a cyber observable and a TTP.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="operator" type="indicator:OperatorTypeEnum">
+			<xsd:annotation>
+				<xsd:documentation>Specifies the logical composition operator for this composite cyber threat Indicator.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:simpleType name="OperatorTypeEnum">
+		<xsd:annotation>
+			<xsd:documentation>OperatorTypeEnum is a (non-exhaustive) enumeration of operators.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="AND"/>
+			<xsd:enumeration value="OR"/>
+			<xsd:enumeration value="NOT"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!---->
+	<xsd:complexType name="IndicatedTTPType">
+		<xsd:annotation>
+			<xsd:documentation>The IndicatedTTPType specifies a single TTP asserted to be indicated by this cyber threat Indicator.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="TTP:TTPType">
+				<xsd:sequence>
+					<xsd:element name="IndicatedTTPConfidence" type="stixCommon:ConfidenceType" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>The IndicatedTTPConfidence field specifies a level of confidence in the assertion that this TTP is actually indicated by the specific Indicator.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!---->
+	<xsd:complexType name="TestMechanismType" abstract="true">
+		<xsd:annotation>
+			<xsd:documentation>The TestMechanismType specifies a Test Mechanism effective at identifying the cyber Observables specified in this cyber threat Indicator. This type is defined as an abstract type enabling the extension and inclusion of various formats of Test Mechanism specifications.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Efficacy" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>The Efficacy field provides an assertion of likely effectiveness of this TestMechanism to detect the targeted cyber Observables.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="Description" type="cyboxCommon:StructuredTextType" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>The Description field provides a description of the asserted efficacy of this TestMechanism.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="Confidence" type="stixCommon:ConfidenceType" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>The Confidence field characterizes the level of confidence held in the asserted efficacy of this TestMechanism to detect the targeted cyber Observables.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Producer" type="stixCommon:InformationSourceType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>The Producer field details the source of this entry.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:QName">
+			<xsd:annotation>
+				<xsd:documentation>Specifies a unique ID for this Test Mechanism.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="idref" type="xsd:QName">
+			<xsd:annotation>
+				<xsd:documentation>Specifies a reference to the ID of a Test Mechanism specified elsewhere.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="type" type="indicator:TestMechanismTypeEnum">
+			<xsd:annotation>
+				<xsd:documentation>Specifies the type of Test Mechanism.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="typeReference" type="xsd:anyURI">
+			<xsd:annotation>
+				<xsd:documentation>Specifies a reference URL for a location characterizing the TestMechanism type.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="referenceLocation" type="xsd:anyURI">
+			<xsd:annotation>
+				<xsd:documentation>Specifies a reference URL for the location of the Test Mechanism.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:simpleType name="TestMechanismTypeEnum">
+		<xsd:annotation>
+			<xsd:documentation>The TestMechanismTypeEnum specifies an enumerated list of valid Test Mechanism types.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="OVAL"/>
+			<xsd:enumeration value="Snort"/>
+			<xsd:enumeration value="Yara"/>
+			<xsd:enumeration value="OpenIOC"/>
+			<xsd:enumeration value="Etc."/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="GenericTestMechanismType">
+		<xsd:annotation>
+			<xsd:documentation>The GenericTestMechanismType specifies an instantial extension from the abstract Test MechanismType intended to support the generic inclusion of any test mechanism content.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="indicator:TestMechanismType">
+				<xsd:sequence>
+					<xsd:element name="GenericTestMechanismSpecification" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>The GenericTestMechanismSpecification field encapsulates any test mechnism specification in its native format within a String field. The specification should be within a CDATA construct within the String field.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!---->
+	<xsd:complexType name="COARuleType" abstract="true">
+		<xsd:annotation>
+			<xsd:documentation>The COARuleType specifies a structured rule for automated application of a Course of Action.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:attribute name="type" type="indicator:TestMechanismTypeEnum">
+			<xsd:annotation>
+				<xsd:documentation>Specifies the type of COA Rule.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="id" type="xsd:QName">
+			<xsd:annotation>
+				<xsd:documentation>Specifies a unique ID for this COA Rule.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="referenceLocation" type="xsd:anyURI">
+			<xsd:annotation>
+				<xsd:documentation>Specifies a reference URL for the location of the COA Rule.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:complexType name="sightingsType">
+		<xsd:sequence>
+			<xsd:element name="Sighting" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>This field characterizes a single sighting report for this Indicator.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:attribute name="sightingSource">
+						<xsd:annotation>
+							<xsd:documentation>This field provides a URI that uniquely identifies the organization responsible for the sighting report.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+					<xsd:attribute name="sightingTimestamp" type="xsd:dateTime">
+						<xsd:annotation>
+							<xsd:documentation>This field provides the date and time of the Indicator sighting.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+					<xsd:attribute name="sightingConfidence">
+						<xsd:annotation>
+							<xsd:documentation>This field asserts the level of confidence that the sightingSource places in the accuracy of this sighting report as an observed instance of the Indicator.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+					<xsd:attribute name="sightingReference" type="xsd:anyURI">
+						<xsd:annotation>
+							<xsd:documentation>This field provides a URI reference to an external description of this sighting.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="sightingsCount">
+			<xsd:annotation>
+				<xsd:documentation>The total number of times this Indicator was reported as sighted.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:complexType name="RelationshipType">
+		<xsd:annotation>
+			<xsd:documentation>The relationship-type encapsulates a relationship from the enclosing indicator to one or more associated indicators. </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="IndicatorRef" type="xsd:QName" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Must contain the ID of the indicator on the object/range side of the relationship.
+                    </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="type" type="xsd:string" use="optional">
+			<xsd:annotation>
+				<xsd:documentation>Specifies a locally-defined type of relationship (predicate) being defined between the subject and the object of the relationship. </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="externallyDefinedType" type="xsd:QName">
+			<xsd:annotation>
+				<xsd:documentation>Specifies an externally-defined type of relationship (predicate) being defined between the subject and the object of the relationship. The value is a QName that should reference a term in a controlled vocabulary which is understood by both the producing and consuming parties.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="scope" default="inclusive">
+			<xsd:annotation>
+				<xsd:documentation>Indicates how multiple IndicatorRef elements should be interpreted in this relationship. If "inclusive" is specified, then the relationship being defined is between the subject and the collection of objects indicated by the IndicatorRef elements (i.e. the relationship is not necessarily relevant for any one particular object being referenced, but for the aggregated collection of objects referenced). If "exclusive" is specified, then the relationship being defined is between the specific subject Indicator and each object individually (i.e. this is the same as specifying multiple relationship elements, each with the same @type).</xsd:documentation>
+			</xsd:annotation>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:token">
+					<xsd:enumeration value="inclusive"/>
+					<xsd:enumeration value="exclusive"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:anyAttribute namespace="##other">
+			<xsd:annotation>
+				<xsd:documentation>A placeholder so that content creators can add attributes as
+desired.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:anyAttribute>
+	</xsd:complexType>
+	<xsd:complexType name="RelatedIndicatorType">
+		<xsd:complexContent>
+			<xsd:extension base="indicator:IndicatorType">
+				<xsd:sequence>
+					<xsd:element name="RelatedIndicatorConfidence" type="stixCommon:ConfidenceType" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>The RelatedIndicatorConfidence field specifies the level of confidence held in the asserted relationship of this cyber threat Indicator.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:attribute name="relationshipType" type="xsd:string" use="optional">
+					<xsd:annotation>
+						<xsd:documentation>Specifies a locally-defined type of relationship (predicate) being defined between the subject and the object of the relationship. </xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:attribute name="externallyDefinedType" type="xsd:QName">
+					<xsd:annotation>
+						<xsd:documentation>Specifies an externally-defined type of relationship (predicate) being defined between the subject and the object of the relationship. The value is a QName that should reference a term in a controlled vocabulary which is understood by both the producing and consuming parties.</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:attribute name="scope" default="inclusive">
+					<xsd:annotation>
+						<xsd:documentation>Indicates how multiple IndicatorRef elements should be interpreted in this relationship. If "inclusive" is specified, then the relationship being defined is between the subject and the collection of objects indicated by the IndicatorRef elements (i.e. the relationship is not necessarily relevant for any one particular object being referenced, but for the aggregated collection of objects referenced). If "exclusive" is specified, then the relationship being defined is between the specific subject Indicator and each object individually (i.e. this is the same as specifying multiple relationship elements, each with the same @type).</xsd:documentation>
+					</xsd:annotation>
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:token">
+							<xsd:enumeration value="inclusive"/>
+							<xsd:enumeration value="exclusive"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+				<xsd:anyAttribute namespace="##other">
+					<xsd:annotation>
+						<xsd:documentation>A placeholder so that content creators can add attributes as
+desired.</xsd:documentation>
+					</xsd:annotation>
+				</xsd:anyAttribute>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+</xsd:schema>

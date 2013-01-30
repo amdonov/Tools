@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    VERSION:					0.5
+    DESCRIPTION:		Data_Marking - Schematic implementation for an independent, flexible, structured data marking expression.
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:marking="http://data-marking.mitre.org" xmlns:stixCommon="http://stix.mitre.org/Common" targetNamespace="http://data-marking.mitre.org" elementFormDefault="qualified" attributeFormDefault="unqualified" version="0.5" xml:lang="English">
+	<xs:import namespace="http://stix.mitre.org/Common" schemaLocation="STIX-Common_v0.2.xsd"/>
+	<xs:complexType name="MarkingType">
+		<xs:annotation>
+			<xs:documentation>MarkingType specifies a structure for marking information to be applied to portions of XML content.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Marking" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>This field contains specification of  marking information to be applied to portions of XML content.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ControlledStructure" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>This field utilizes XPath to specify the structure for which the Marking is to be applied. This specification is intended to be recursive and apply to all children of the specified structure unless overridden by any other Markings specified for any of those children.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Marking_Structure" type="marking:MarkingStructureType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>This field contains the marking information to be applied to the portions of XML content specified in the ControlledStructure field. This field is defined as MarkingStructureType which is an abstract type the enables the flexibility to utilize any variety of marking structures.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="InformationSource" type="stixCommon:InformationSourceType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The InformationSource field details the source of this entry.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="id" type="xs:QName">
+						<xs:annotation>
+							<xs:documentation>Specifies a unique ID for this Marking.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="idref" type="xs:QName">
+						<xs:annotation>
+							<xs:documentation>Specifies a reference to the ID of a Marking defined elsewhere.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="version" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Specifies the relevant Data_Marking schema version for this content.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MarkingStructureType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>The MarkingStructureType contains the marking information to be applied to a portion of XML content. This type is defined as an abstract type that enables the flexibility to utilize any variety of marking structures.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="markingModelName">
+			<xs:annotation>
+				<xs:documentation>This field specifies the name of the marking model to be applied within this Marking_Structure.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:QName">
+					<xs:enumeration value="TLP"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="markingModelRef">
+			<xs:annotation>
+				<xs:documentation>This field contains a reference to an authoritative source on the marking model to be applied within this Marking_Structure.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:anyURI"/>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+</xs:schema>

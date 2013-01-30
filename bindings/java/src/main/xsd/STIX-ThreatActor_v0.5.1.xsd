@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    VERSION:					0.5
+    DESCRIPTION:		Structured Threat Information eXpression (STIX) - ThreatActor - Schematic implementation for the Threat Actor construct within the STIX structured cyber threat expression 		language architecture.
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cybox="http://cybox.mitre.org/cybox_v1" xmlns:cyboxCommon="http://cybox.mitre.org/Common_v1" xmlns:SystemObj="http://cybox.mitre.org/objects#SystemObject" xmlns:UserAccountObj="http://cybox.mitre.org/objects#UserAccountObject" xmlns:stixCommon="http://stix.mitre.org/Common" xmlns:TTP="http://stix.mitre.org/TTP" xmlns:campaign="http://stix.mitre.org/Campaign" xmlns:TA="http://stix.mitre.org/ThreatActor" xmlns:marking="http://data-marking.mitre.org" targetNamespace="http://stix.mitre.org/ThreatActor" elementFormDefault="qualified" attributeFormDefault="unqualified" version="0.5" xml:lang="English">
+	<xs:import namespace="http://cybox.mitre.org/cybox_v1" schemaLocation="http://cybox.mitre.org/XMLSchema/cybox_core_v1.0.xsd"/>
+	<xs:import namespace="http://cybox.mitre.org/Common_v1" schemaLocation="http://cybox.mitre.org/XMLSchema/cybox_common_types_v1.0.xsd"/>
+	<xs:import namespace="http://cybox.mitre.org/objects#SystemObject" schemaLocation="http://cybox.mitre.org/XMLSchema/objects/System/System_Object_1.3.xsd"/>
+	<xs:import namespace="http://cybox.mitre.org/objects#UserAccountObject" schemaLocation="http://cybox.mitre.org/XMLSchema/objects/User_Account/User_Account_Object_1.2.xsd"/>
+	<xs:import namespace="http://stix.mitre.org/Common" schemaLocation="STIX-Common_v0.2.xsd"/>
+	<xs:import namespace="http://stix.mitre.org/Campaign" schemaLocation="STIX-Campaign_v0.5.1.xsd"/>
+	<xs:import namespace="http://stix.mitre.org/TTP" schemaLocation="STIX-TTP_v0.6.xsd"/>
+	<xs:import namespace="http://data-marking.mitre.org" schemaLocation="Data_Marking_v0.5.xsd"/>
+	<xs:element name="ThreatActor" type="TA:ThreatActorType">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<!---->
+	<xs:complexType name="ThreatActorType">
+		<xs:sequence>
+			<xs:element name="Identity" type="stixCommon:IdentityType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Identity field characterizes the identity of this entry.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Intent" type="stixCommon:IntentType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The Intent field specifies the suspected Intent for this Threat Actor.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ObservedTTPs" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The ObservedTTPs field specifies the TTPs that this Threat Actor has been observed to leverage.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ObservedTTP" type="TA:ObservedTTPType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>The ObservedTTP field specifies a TTP that this Threat Actor has been observed to leverage.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="HistoricalCampaigns" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The HistoricalCampaigns field specifies any known Campaigns  attributed to this Threat Actor.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="HistoricalCampaign" type="TA:HistoricalCampaignType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>The HistoricalCampaign field specifies a known Campaign  attributed to this Threat Actor.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AssociatedActors" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The AssociatedActors field specifies other Threat Actors asserted to be associated with this Threat Actor.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AssociatedActor" type="TA:AssociatedActorType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>The AssociatedActor field specifies another Threat Actor asserted to be associated with this Threat Actor.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Handling" type="marking:MarkingType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Handling field specifies the appropriate data handling markings for the elements of this Threat Actor characterization.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Confidence" type="stixCommon:ConfidenceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Confidence field characterizes the level of confidence held in the characterization of this Threat Actor.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="InformationSource" type="stixCommon:InformationSourceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The InformationSource field details the source of this entry.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:QName">
+			<xs:annotation>
+				<xs:documentation>Specifies a globally unique identifier for this ThreatActor. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="idref" type="xs:QName">
+			<xs:annotation>
+				<xs:documentation>Specifies a globally unique identifier of a ThreatActor specified elsewhere.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="version" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Specifies the relevant STIX-ThreatActor schema version for this content.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<!---->
+	<xs:complexType name="ObservedTTPType">
+		<xs:complexContent>
+			<xs:extension base="TTP:TTPType">
+				<xs:sequence>
+					<xs:element name="ObservedTTPConfidence" type="stixCommon:ConfidenceType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="HistoricalCampaignType">
+		<xs:complexContent>
+			<xs:extension base="campaign:CampaignType">
+				<xs:sequence>
+					<xs:element name="HistoricalCampaignConfidence" type="stixCommon:ConfidenceType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The HistoricalCampaignConfidence field characterizes the level of confidence held in the validity of this asserted correlation between this TheatActor and the associated campaign.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AssociatedActorType">
+		<xs:complexContent>
+			<xs:extension base="TA:ThreatActorType">
+				<xs:sequence>
+					<xs:element name="AssociatedActorConfidence" type="stixCommon:ConfidenceType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The AssociatedActorConfidence field characterizes the level of confidence held in the validity of this asserted correlation between this TheatActor and the associated ThreatActor.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="associationType" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Specifies the type of association between the two ThreatActors.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!---->
+</xs:schema>

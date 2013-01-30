@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    VERSION:					1.0 (Draft2)
+    DESCRIPTION:		Structured Threat Information eXpression (STIX) - Schematic implementation for a structured cyber threat expression language architecture.
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cybox="http://cybox.mitre.org/cybox_v1" xmlns:cyboxCommon="http://cybox.mitre.org/Common_v1" xmlns:SystemObj="http://cybox.mitre.org/objects#SystemObject" xmlns:UserAccountObj="http://cybox.mitre.org/objects#UserAccountObject" xmlns:indicator="http://stix.mitre.org/Indicator" xmlns:capec="http://capec.mitre.org/capec_v1" xmlns:maecBundle="http://maec.mitre.org/XMLSchema/maec-bundle-3" xmlns:maecPackage="http://maec.mitre.org/XMLSchema/maec-package-1" xmlns:iodef="urn:ietf:params:xml:ns:iodef-1.0" xmlns:TA="http://stix.mitre.org/ThreatActor" xmlns:campaign="http://stix.mitre.org/Campaign" xmlns:TTP="http://stix.mitre.org/TTP" xmlns:stix="http://stix.mitre.org" xmlns:marking="http://data-marking.mitre.org" xmlns:COA="http://stix.mitre.org/COA" xmlns:ExpTgt="http://stix.mitre.org/ExploitTarget" xmlns:Incident="http://stix.mitre.org/Incident" xmlns:stixCommon="http://stix.mitre.org/Common" targetNamespace="http://stix.mitre.org" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0 (Draft2)" xml:lang="English">
+	<xs:import namespace="http://data-marking.mitre.org" schemaLocation="Data_Marking_v0.5.xsd"/>
+	<xs:import namespace="http://cybox.mitre.org/cybox_v1" schemaLocation="http://cybox.mitre.org/XMLSchema/cybox_core_v1.0.xsd"/>
+	<xs:import namespace="http://cybox.mitre.org/Common_v1" schemaLocation="http://cybox.mitre.org/XMLSchema/cybox_common_types_v1.0.xsd"/>
+	<xs:import namespace="http://cybox.mitre.org/objects#SystemObject" schemaLocation="http://cybox.mitre.org/XMLSchema/objects/System/System_Object_1.3.xsd"/>
+	<xs:import namespace="http://cybox.mitre.org/objects#UserAccountObject" schemaLocation="http://cybox.mitre.org/XMLSchema/objects/User_Account/User_Account_Object_1.2.xsd"/>
+	<xs:import namespace="http://stix.mitre.org/Common" schemaLocation="STIX-Common_v0.2.xsd"/>
+	<xs:import namespace="http://stix.mitre.org/Indicator" schemaLocation="STIX-Indicator_v1.1.xsd"/>
+	<xs:import namespace="http://capec.mitre.org/capec_v1" schemaLocation="ap_schema_v2.5.xsd"/>
+	<xs:import namespace="http://maec.mitre.org/XMLSchema/maec-package-1" schemaLocation="http://maec.mitre.org/language/version3.0/maec-package-schema.xsd"/>
+	<xs:import namespace="urn:ietf:params:xml:ns:iodef-1.0" schemaLocation="http://www.iana.org/assignments/xml-registry/schema/iodef-1.0.xsd"/>
+	<xs:import namespace="http://stix.mitre.org/Campaign" schemaLocation="STIX-Campaign_v0.5.1.xsd"/>
+	<xs:import namespace="http://stix.mitre.org/TTP" schemaLocation="STIX-TTP_v0.6.xsd"/>
+	<xs:import namespace="http://stix.mitre.org/ThreatActor" schemaLocation="STIX-ThreatActor_v0.5.1.xsd"/>
+	<xs:import namespace="http://stix.mitre.org/ExploitTarget" schemaLocation="STIX-ExploitTarget_v0.3.1.xsd"/>
+	<xs:import namespace="http://stix.mitre.org/COA" schemaLocation="STIX-COA_v0.3.1.xsd"/>
+	<xs:import namespace="http://stix.mitre.org/Incident" schemaLocation="STIX-Incident_v0.3.1.xsd"/>
+	<xs:element name="STIX_Package" type="stix:STIXType">
+		<xs:annotation>
+			<xs:documentation>The STIX_Package field contains a bundle of information characterized in the Structured Threat Information eXpression (STIX) language.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="STIXType">
+		<xs:annotation>
+			<xs:documentation>STIXType defines a bundle of information characterized in the Structured Threat Information eXpression (STIX) language.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="STIXHeader" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The STIXHeader field provides information characterizing this package of STIX content.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PackageIntent" type="xs:string" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The PackageIntent field characterizes the intended purpose or use for this package of STIX content.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Description" type="cyboxCommon:StructuredTextType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The Description field provides a description of this package of STIX content.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Handling" type="marking:MarkingType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Specifies the relevant handling guidance for this Indicator.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="InformationSource" type="stixCommon:InformationSourceType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The InformationSource field details the source of this entry.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Observables" type="cybox:ObservablesType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Characterizes one or more cyber observables.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Indicators" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Characterizes one or more cyber threat Indicators.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Indicator" type="indicator:IndicatorType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Characterizes a single cyber threat Indicator.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="TTPs" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Characterizes one or more cyber threat adversary Tactics, Techniques or Procedures.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="TTP" type="TTP:TTPType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Characterizes a single cyber threat adversary Tactic, Technique or Procedure.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="KillChains" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The KillChains field characterizes specific Kill Chain definitions for reference within specific TTP entries, Indicators and elsewhere.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="KillChain" type="stixCommon:KillChainType">
+										<xs:annotation>
+											<xs:documentation>The KillChains field characterizes a specific Kill Chain definition for reference within specific TTP entries, Indicators and elsewhere.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ExploitTargets" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The ExploitTargets field characterizes potential targets for exploitation.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ExploitTarget" type="ExpTgt:ExploitTargetType" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>The ExploitTarget field characterizes a potential target for exploitation.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Incidents" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Characterizes one or more cyber threat Incidents.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Incident" type="Incident:IncidentType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Identifies or characterizes a single cyber threat Incident.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CoursesOfAction" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The CoursesOfAction field characterizes Courses of Action to be taken in regards to one of more cyber threats.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="CourseOfAction" type="COA:COAType" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>The CourseOfAction field characterizes a Course of Action to be taken in regards to one of more cyber threats. NOTE: This is an initial, rough draft for a schematic implementation for this construct and will require a good deal of review and refinement.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Campaigns" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Characterizes one or more cyber threat Campaigns.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Campaign" type="campaign:CampaignType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Characterizes a single cyber threat Campaign.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ThreatActors" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Characterizes one or more cyber Threat Actors.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ThreatActor" type="TA:ThreatActorType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Characterizes a single cyber Threat Actor.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:QName">
+			<xs:annotation>
+				<xs:documentation>Specifies a globally unique identifier for this STIX Package. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="idref" type="xs:QName">
+			<xs:annotation>
+				<xs:documentation>Specifies a globally unique identifier of a STIX Package specified elsewhere.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="version" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Specifies the relevant STIX schema version for this content.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<!---->
+</xs:schema>

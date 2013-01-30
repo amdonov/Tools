@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    VERSION:					0.3
+    DESCRIPTION:		Structured Threat Information eXpression (STIX) - COA - Schematic implementation for the CourseOfAction construct within the STIX structured cyber threat expression language architecture.
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cyboxCommon="http://cybox.mitre.org/Common_v1" xmlns:COA="http://stix.mitre.org/COA" xmlns:stixCommon="http://stix.mitre.org/Common" xmlns:indicator="http://stix.mitre.org/Indicator" targetNamespace="http://stix.mitre.org/COA" elementFormDefault="qualified" attributeFormDefault="unqualified" version="0.3" xml:lang="English">
+	<xs:import namespace="http://cybox.mitre.org/Common_v1" schemaLocation="http://cybox.mitre.org/XMLSchema/cybox_common_types_v1.0.xsd"/>
+	<xs:import namespace="http://stix.mitre.org/Indicator" schemaLocation="STIX-Indicator_v1.1.xsd"/>
+	<xs:import namespace="http://stix.mitre.org/Common" schemaLocation="STIX-Common_v0.2.xsd"/>
+	<xs:element name="CourseOfAction" type="COA:COAType">
+		<xs:annotation>
+			<xs:documentation>The CourseOfAction field characterizes a Course of Action to be taken in regards to one of more cyber threats. NOTE: This is an initial, rough draft for a schematic implementation for this construct and will require a good deal of review and refinement.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="COAType">
+		<xs:annotation>
+			<xs:documentation>The CourseOfActionType characterizes a Course of Action to be taken in regards to one of more cyber threats. NOTE: This is an initial, rough draft for a schematic implementation for this construct and will require a good deal of review and refinement.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Stage" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Stage field specifies what stage in the cyber threat management lifecycle this CourseOfAction is relevant to (e.g. Remedy or Reponse).</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Remedy"/>
+						<xs:enumeration value="Response"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Type" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Type field specifies the type of this CourseOfAction.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Description" type="cyboxCommon:StructuredTextType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Description element is optional and enables a generalized but structured description of this CourseOfAction.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Objective" type="COA:ObjectiveType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Objective field characterizes the objective of this CourseOfAction.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StructuredCOA" type="COA:StructuredCOAType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The StructuredCOA field enables the specification of a structured representation for the CourseOfAction potentially for automated consumption and implementation. This field is defined as of type StructuredCOAType which is an abstract type enabling the extension and inclusion of various formats of StructuredCOA specifications.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Impact" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Impact field characterizes the estimated impact of applying this CourseOfAction.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Description" type="cyboxCommon:StructuredTextType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The Description element is optional and enables a generalized but structured description of the estimated Impact of this CourseOfAction.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ImpactConfidence" type="stixCommon:ConfidenceType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The ImpactConfidence field characterizes the level of confidence held in the impact estimation of this suggested CourseOfAction.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Cost" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Cost field characterizes the estimated cost for applying this CourseOfAction.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Description" type="cyboxCommon:StructuredTextType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The Description element is optional and enables a generalized but structured description of the Cost of this CourseOfAction.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="CostConfidence" type="stixCommon:ConfidenceType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The CostConfidence field characterizes the level of confidence held in the cost estimation of this suggested CourseOfAction.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Efficacy" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Efficacy field characterizes the effectiveness of this CourseOfAction in achieving its targeted Objective.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Description" type="cyboxCommon:StructuredTextType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The Description element is optional and enables a generalized but structured description of the efficacy of this CourseOfAction.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="EfficacyConfidence" type="stixCommon:ConfidenceType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The EfficacyConfidence field characterizes the level of confidence held in the efficacy of this suggested CourseOfAction.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:QName">
+			<xs:annotation>
+				<xs:documentation>Specifies a globally unique identifier for this COA. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="idref" type="xs:QName">
+			<xs:annotation>
+				<xs:documentation>Specifies a globally unique identifier of a COA specified elsewhere.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="version" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Specifies the relevant STIX-COA schema version for this content.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="StructuredCOAType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>The StructuredCOAType enables the specification of a structured representation for the CourseOfAction potentially for automated consumption and implementation. This type is defined as an abstract type enabling the extension and inclusion of various formats of StructuredCOA specifications.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="id" type="xs:QName">
+			<xs:annotation>
+				<xs:documentation>Specifies a unique ID for this StructuredCOA.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="idref" type="xs:QName">
+			<xs:annotation>
+				<xs:documentation>Specifies a reference to the ID for this StructuredCOA specified elsewhere.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="type" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Specifies the type of StructuredCOA.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="typeReference" type="xs:anyURI">
+			<xs:annotation>
+				<xs:documentation>Specifies a reference URL for a location characterizing the StructuredCOA type.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="referenceLocation" type="xs:anyURI">
+			<xs:annotation>
+				<xs:documentation>Specifies a reference URL for the location of the StructuredCOA.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="ObjectiveType">
+		<xs:annotation>
+			<xs:documentation>The ObjectiveType characterizes the objective of this CourseOfAction.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Description" type="cyboxCommon:StructuredTextType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Description element is optional and enables a generalized but structured description of the objective of this CourseOfAction.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Target" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Target field specifies the targeted objective of this CourseOfAction. NOTE: The structure for this field is currently undefined and will require further discussion and design.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ApplicabilityConfidence" type="stixCommon:ConfidenceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Confidence field characterizes the level of confidence held in the applicability of this suggested COA for its targeted Objective.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,825 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    VERSION:					0.3
+    DESCRIPTION:		Structured Threat Information eXpression (STIX) - Incident - Schematic implementation for the Incident construct within the STIX structured cyber threat expression language architecture.
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cybox="http://cybox.mitre.org/cybox_v1" xmlns:cyboxCommon="http://cybox.mitre.org/Common_v1" xmlns:SystemObj="http://cybox.mitre.org/objects#SystemObject" xmlns:UserAccountObj="http://cybox.mitre.org/objects#UserAccountObject" xmlns:iodef="urn:ietf:params:xml:ns:iodef-1.0" xmlns:stixCommon="http://stix.mitre.org/Common" xmlns:TTP="http://stix.mitre.org/TTP" xmlns:campaign="http://stix.mitre.org/Campaign" xmlns:TA="http://stix.mitre.org/ThreatActor" xmlns:marking="http://data-marking.mitre.org" xmlns:indicator="http://stix.mitre.org/Indicator" xmlns:incident="http://stix.mitre.org/Incident" xmlns:COA="http://stix.mitre.org/COA" xmlns:aciq="urn:oasis:names:tc:ciq:xal:3" targetNamespace="http://stix.mitre.org/Incident" elementFormDefault="qualified" attributeFormDefault="unqualified" version="0.3" xml:lang="English">
+	<xs:import namespace="http://cybox.mitre.org/cybox_v1" schemaLocation="http://cybox.mitre.org/XMLSchema/cybox_core_v1.0.xsd"/>
+	<xs:import namespace="http://cybox.mitre.org/Common_v1" schemaLocation="http://cybox.mitre.org/XMLSchema/cybox_common_types_v1.0.xsd"/>
+	<xs:import namespace="http://cybox.mitre.org/objects#SystemObject" schemaLocation="http://cybox.mitre.org/XMLSchema/objects/System/System_Object_1.3.xsd"/>
+	<xs:import namespace="http://cybox.mitre.org/objects#UserAccountObject" schemaLocation="http://cybox.mitre.org/XMLSchema/objects/User_Account/User_Account_Object_1.2.xsd"/>
+	<xs:import namespace="urn:ietf:params:xml:ns:iodef-1.0" schemaLocation="http://www.iana.org/assignments/xml-registry/schema/iodef-1.0.xsd"/>
+	<xs:import namespace="urn:oasis:names:tc:ciq:xal:3" schemaLocation="oasis-ciq/xAL.xsd"/>
+	<xs:import namespace="http://stix.mitre.org/Indicator" schemaLocation="STIX-Indicator_v1.1.xsd"/>
+	<xs:import namespace="http://stix.mitre.org/Common" schemaLocation="STIX-Common_v0.2.xsd"/>
+	<xs:import namespace="http://stix.mitre.org/TTP" schemaLocation="STIX-TTP_v0.6.xsd"/>
+	<xs:import namespace="http://stix.mitre.org/ThreatActor" schemaLocation="STIX-ThreatActor_v0.5.1.xsd"/>
+	<xs:import namespace="http://stix.mitre.org/COA" schemaLocation="STIX-COA_v0.3.1.xsd"/>
+	<xs:import namespace="http://data-marking.mitre.org" schemaLocation="Data_Marking_v0.5.xsd"/>
+	<xs:element name="Incident" type="incident:IncidentType">
+		<xs:annotation>
+			<xs:documentation>The Incident field characterizes  a single cyber threat Incident. NOTE: This is a first very rough draft for the Incident construct and still needs a LOT more work to flesh out appropriately. It is included here as a strawman for collaborative refinement.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="IncidentType">
+		<xs:annotation>
+			<xs:documentation>The IncidentType characterizes  a single cyber threat Incident.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Time" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Time filed specifies relevant time values associated with this Incident.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="FirstMaliciousAction" type="xs:dateTime" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The FirstMaliciousAction field specifies the time that the first malicious action related to this Incident occured.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="InitialCompromise" type="xs:dateTime" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The InitialCompromise field specifies the time that the initial compromise occured for this Incident.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="FirstDataExfiltration" type="xs:dateTime" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The FirstDataExfiltration field specifies the first time at which non-public data was taken from the victim environment</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="IncidentDiscovery" type="xs:dateTime" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The IncidentDiscovery field specifies the first time at which the organization learned the incident had occurred.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="IncidentOpened" type="xs:dateTime" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The IncidentOpened field specifies the time at which the Incident was officially opened.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ContainmentAcheived" type="xs:dateTime" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The ContainmentAchieved field specifies the first time at which the incident is contained (e.g., the “bleeding is stopped”).</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="RestorationAchieved" type="xs:dateTime" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The RestorationAchieved field specifies the first time at which the incident's assets are restored (e.g., fully functional)”.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="IncidentReported" type="xs:dateTime" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The IncidentReported field specifies the time at which the Incident was reported.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="IncidentClosed" type="xs:dateTime" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The IncidentClosed field specifies the time at which the Incident was officially closed.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Description" type="cyboxCommon:StructuredTextType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Description field provides a description of this Incident.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Reporter" type="stixCommon:InformationSourceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Reporter field details information about the reporting source of this Incident.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Responder" type="stixCommon:InformationSourceType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The Responder field is optional and details information about the assigned responder for this Incident.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Coordinator" type="stixCommon:InformationSourceType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The Coordinator field is optional and details information about the assigned coordinator for this Incident.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Victim" type="stixCommon:IdentityType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The Victim field is optional and details information about a victim of this Incident.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AffectedAssets" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The AffectedAssets field is optional and characterizes the particular assets affected during the Incident.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AffectedAsset" type="incident:AffectedAssetType" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>The AffectedAsset field is optional and characterizes a particular asset affected during the Incident.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ImpactAssessment" type="incident:ImpactAssessmentType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The ImpactAssessment field specifies a summary assessment of impact for this cyber threat Incident. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RelatedIndicators" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The RelatedIndicators field identifies or characterizes one or more cyber threat Indicators related to this cyber threat Incident.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RelatedIndicator" type="incident:RelatedIndicatorType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>The RelatedIndicator field identifies or characterizes a cyber threat Indicator related to this Incident. </xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LeveragedTTPs" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The LeveragedTTPs field specifies TTPs asserted to be related to this cyber threat Incident.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="LeveragedTTP" type="incident:LeveragedTTPType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>The Leveraged TTP field specifies a single TTP asserted to be related to this cyber threat Incident.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RelatedThreatActors" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The RelatedThreatActors field identifies ThreatActors believed to be related to the Incident.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RelatedThreatActor" type="TA:ThreatActorType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>The RelatedThreatActor field identifies a single ThreatActor believed to be related to the Incident.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Intent" type="stixCommon:IntentType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Intent field characterizes the intent of this cyber threat Incident.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DiscoveryMethod" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The DiscoveryMethod field identifies how the incident was discoverd. It is intended to be a selection from a defined list (controlled vocabulary) of discovery methods (as specified in the incidentDiscoveryMethodRef attribute) rather than a freeform text entry but does allow other text to be entered if the appropriate discovery method is not avaliable in the relevant controlled vocabulary.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="incidentDiscoveryMethodRef" type="xs:anyURI">
+								<xs:annotation>
+									<xs:documentation>This field specifies a reference to an incident discovery method value reference. The value is a QName or URL that should reference a term in a controlled vocabulary (e.g. VERIS) which is understood by both the producing and consuming parties.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RelatedIncidents" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The RelatedIncidents field identifies or characterizes one or more other Incidents related to this cyber threat Incident. </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RelatedIncident" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Identifies or characterizes another Incident related to this Incident. </xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="incident:RelatedIncidentType"/>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="COARequested" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The COARequested field specifies and characterizes a requested CourseOfAction for this Incident as specified by the Producer for the Consumer of the Incident Report</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Time" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The Time field specifies the relative time criteria for this requested CourseOfAction.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="StartTime" type="xs:dateTime" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>The StartTime field specifies the time at which the requested CourseOfAction should be performed.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="EndTime" type="xs:dateTime" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>The EndTime field specifies the time at which the requested CourseOfAction should be completed.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="AssignedContact" type="cyboxCommon:ContributorType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The AssignedContact field specifies a particular actor for the CourseOfAction. </xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="CourseOfAction" type="COA:COAType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The CourseOfAction field specifies the actual requested CourseOfAction.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="Priority">
+						<xs:annotation>
+							<xs:documentation>Specifies a suggested level of priority to be applied to this requested COA.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="COATaken" type="incident:COATakenType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The COATaken field specifies and characterizes a CourseOfAction taken for this Incident.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Confidence" type="stixCommon:ConfidenceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Confidence field characterizes the level of confidence held in the characterization of this Incident.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Contact" type="stixCommon:InformationSourceType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The Contact field identifies and characterizes organizations or personnel involved in this Incident.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="History" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The History field provides a log of events or actions taken during the handling of the Incident. </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="HistoryItem" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>The HistoryItem field provides a log entry of an event or action taken during the handling of the Incident. </xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:choice>
+									<xs:element name="ActionEntry" type="incident:COATakenType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>The ActionEntry field is optional and provides a record of actions taken during the handling of the Incident.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="JournalEntry" type="incident:JournalEntryType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>The JournalEntry field is optional and provides journal notes for information discovered during the handling of the Incident.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:choice>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:QName">
+			<xs:annotation>
+				<xs:documentation>Specifies a globally unique identifier for this cyber threat Incident.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="idref" type="xs:QName">
+			<xs:annotation>
+				<xs:documentation>Specifies a globally unique identifier for a cyber threat Incident specified elsewhere.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="version" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Specifies the relevant STIX-Incident schema version for this content.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="URL">
+			<xs:annotation>
+				<xs:documentation>Specifies a URL referencing the location for the Incident specification.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="security_compromise" type="incident:ConditionEnum">
+			<xs:annotation>
+				<xs:documentation>Specifies knowledge of whether the Incident involved a compromise of security properties.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<!---->
+	<xs:simpleType name="ConditionEnum">
+		<xs:annotation>
+			<xs:documentation>ConditionEnum is an enumeration of potential assertions on whether a condition is true.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Yes">
+				<xs:annotation>
+					<xs:documentation>Specifies that the assertion is true.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="No">
+				<xs:annotation>
+					<xs:documentation>Specifies that the assertion is false.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Suspected">
+				<xs:annotation>
+					<xs:documentation>Specifies that the assertion is suspected to be true.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Unknown">
+				<xs:annotation>
+					<xs:documentation>Specifies that status of the assertion is unknown.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<!---->
+	<xs:complexType name="PropertyAffectedType">
+		<xs:sequence>
+			<xs:element name="DescriptionOfEffect" type="cyboxCommon:StructuredTextType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The DescriptionOfEffect field is optional and provides a brief prose description of how the security property was affected.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TypeOfAvailabilityLoss" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The TypeOfAvailabilityLoss field is optional and characterizes in what manner the availability of this asset was affected?</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="availabilityLossTypeRef" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>This field specifies a reference to an availability loss type (e.g. Destruction, Deletion, Interruption) value reference. The value is a QName or URL that should reference a term in a controlled vocabulary which is understood by both the producing and consuming parties.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DurationOfAvailabilityLoss" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The DurationOfAvailabilityLoss field is optional and specifies the approximate length of time availability was affected. </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="availabilityLossDurationRef" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>This field specifies a reference to an availability duration (e.g. Permanent, Seconds, Minutes, Hours, Days) value reference. The value is a QName or URL that should reference a term in a controlled vocabulary which is understood by both the producing and consuming parties.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="securityPropertyRef" type="xs:anyURI">
+			<xs:annotation>
+				<xs:documentation>This field specifies a reference to an security property (e.g. Confidentiality, Integrity, Availability) value reference. The value is a QName or URL that should reference a term in a controlled vocabulary which is understood by both the producing and consuming parties.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="nonPublicDataCompromised" type="incident:ConditionEnum">
+			<xs:annotation>
+				<xs:documentation>This field specifies whether non-public data was compromised or exposed.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="AffectedAssetType">
+		<xs:sequence>
+			<xs:element name="AssetType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The AssetType field is optional and specifies the type of the asset impacted by the incident (a security attribute was negatively affected).</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="assetTypeRef" type="xs:anyURI">
+								<xs:annotation>
+									<xs:documentation>This field specifies a reference to an asset-type value reference. The value is a QName or URL that should reference a term in a controlled vocabulary which is understood by both the producing and consuming parties.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="countAffected">
+								<xs:annotation>
+									<xs:documentation>This field specifies the number of assets of this type affected.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AssetDescription" type="cyboxCommon:StructuredTextType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The AssetDescription field is optional and provides a brief prose description of the asset.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BusinessFunctionOrRole" type="cyboxCommon:StructuredTextType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The BusinessFunctionOrRole field is optional and provides a brief description of the asset's role, mission, and importance within the organization.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OwnershipClass" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The OwnershipClass field is optional and gives a high-level characterization of who owns (or controls) this asset?</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="ownershipClassRef" type="xs:anyURI">
+								<xs:annotation>
+									<xs:documentation>This field specifies a reference to an ownership class (e,g, Internally-owned, Employee-owned, Partner-owned, Customer-owned) value reference. The value is a QName or URL that should reference a term in a controlled vocabulary (e.g. VERIS) which is understood by both the producing and consuming parties.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ManagementClass" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The ManagementClass field is optional and gives a high-level characterization of who is responsible for the day-to-day management and administration of this asset?</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="managementClassRef" type="xs:anyURI">
+								<xs:annotation>
+									<xs:documentation>This field specifies a reference to an management class (e.g. Managed Internally, Managed by External Party, Co-managed) value reference. The value is a QName or URL that should reference a term in a controlled vocabulary (e.g. VERIS) which is understood by both the producing and consuming parties.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LocationClass" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The LocationClass field is optional and gives a high-level characterization of where this asset is physically located (hosted, stored, etc)?
+</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="locationClassRef" type="xs:anyURI">
+								<xs:annotation>
+									<xs:documentation>This field specifies a reference to an location class (e.g. Internal location, External location, Co-located, Mobile) value reference. The value is a QName or URL that should reference a term in a controlled vocabulary (e.g. VERIS) which is understood by both the producing and consuming parties.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AssetLocation" type="aciq:AddressType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The AssetLocation field specifies the physical location of the affected asset.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NatureOfSecurityEffect" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The NatureOfSecurityEffect field is optional and characterizes how the security properties of the Asset were affected.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PropertyAffected" type="incident:PropertyAffectedType" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>The PropertyAffected field is optional and characterizes how a particular security property of the Asset was affected.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AssetStructuredDescription" type="cybox:ObservablesType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The AssetStructuredDescription field is optional and provides a structured description of the asset.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!---->
+	<xs:complexType name="LeveragedTTPType">
+		<xs:annotation>
+			<xs:documentation>The LeveragedTTPType specifies a single TTP asserted to be related to this cyber threat Incident.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="TTP:TTPType">
+				<xs:sequence>
+					<xs:element name="LeveragedTTPConfidence" type="stixCommon:ConfidenceType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The LeveragedTTPConfidence field specifies a level of confidence in the assertion that this TTP is actually related to the specific Incident.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RelatedIncidentType">
+		<xs:annotation>
+			<xs:documentation>Identifies or characterizes another Incident related to this Incident.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="Incident" type="incident:IncidentType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The Incident field identifies and characterizes a cyber threat Incident.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="IODEF-Incident" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The IODEF-Incident field specifies a cyber threat Incident defined elsewhere utilizing the IODEF format. </xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="idref">
+							<xs:annotation>
+								<xs:documentation>Specifies the identifier for the referenced Incident.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="LocationReference">
+							<xs:annotation>
+								<xs:documentation>Specifies a URL location reference for the referenced Incident.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="RelatedIncidentConfidence" type="stixCommon:ConfidenceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The RelatedIncidentConfidence field specifies a level of confidence in the assertion that this Incident is actually related to the relevant construct.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="relationship" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Specifies the nature of the relationship between this Incident and the related Incident.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<!---->
+	<xs:complexType name="RelatedIndicatorType">
+		<xs:complexContent>
+			<xs:extension base="indicator:IndicatorType">
+				<xs:sequence>
+					<xs:element name="RelatedIndicatorConfidence" type="stixCommon:ConfidenceType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The RelatedIndicatorConfidence field characterizes the level of confidence held in the validity of this asserted correlation between this Incident and the associated Indicator.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!---->
+	<xs:complexType name="ImpactAssessmentType">
+		<xs:annotation>
+			<xs:documentation>The ImpactAssessmentType specifies a summary assessment of impact for this cyber threat Incident. </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DirectImpactSummary" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The DirectImpactSummary field is optional anc characterizes (at a high level) losses directly resulting from the ThreatActor's actions against organizational assets within the Incident.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AssetLosses" type="incident:ImpactLevelEnum" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The AssetLosses field is optional and characterizes (at a high level) the level of asset-related losses that occured in the Incident includes lost or damaged assets, stolen funds, cash outlays, etc.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Business-MisionDisruption" type="incident:ImpactLevelEnum" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The Business-MissionDisruption field is optional and characterizes (at a high level) the level of business or mission disruption impact that occured in the Incident including unproductive man-hours, lost revenue from system downtime, etc.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ResponseAndRecoveryCosts" type="incident:ImpactLevelEnum" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The ResponseAndRecoveryCosts field is optional and characterizes (at a high level) the level of response and recovery related costs that occured in the Incident including cost of response, investigation, remediation, restoration, etc.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="IndirectImpactSummary" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The IndirectImpactSummary field is optional anc characterizes (at a high level) losses from other stakeholder reactions to the Incident.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="LossOfCompetitiveAdvantage" type="incident:ImpactLevelEnum" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The LossOfCompetitiveAdvantage field is optional and characterizes (at a high level) the level of impact based on loss of competitive advantage that occured in the Incident including loss/damage/exposure of IP, corporate wisdom, ability to compete, key personnel, etc.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="BrandAndMarketDamage" type="incident:ImpactLevelEnum" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The BrandAndMarketDamage field is optional and characterizes (at a high level) the level of impact based on brand or market damage that occured in the Incident including lost customers or partners, decrease in market value or share, advertising, rebranding, etc.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="IncreasedOperatingCosts" type="incident:ImpactLevelEnum" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The IncreasedOperatingCosts field is optional and characterizes (at a high level) the level of impact based on increased operating costs that occured in the Incident including cost of additional audits, new hires or training, mandatory action, higher insurance, etc.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="LegalAndRegulatoryCosts" type="incident:ImpactLevelEnum" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The LegalAndRegulatoryCosts field is optional and characterizes (at a high level) the level of impact based on legal and regulatory costs that occured in the Incident including legal fees, lawsuits, customer damages, contract violations, etc.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="TotalLossEstimation" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The TotalLossEstimation field is optional and specifies the total estimated financial loss for the Incident.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="InitialReportedTotalLossEstimation" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The InitialReportedTotalLossEstimation field is optional and specifies the initially reported level of total estimated financial loss for the Incident.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="amount">
+									<xs:annotation>
+										<xs:documentation>Specifies the amount of total estimated financial loss for the Incident.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="iso_currency_code">
+									<xs:annotation>
+										<xs:documentation>Specifies the ISO 4217 currency code if other than USD </xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ActualTotalLossEstimation" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The ActualTotalLossEsimation field is optional and specifies the actual level of total estimated financial loss for the Incident.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="amount">
+									<xs:annotation>
+										<xs:documentation>Specifies the amount of total estimated financial loss for the Incident.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="iso_currency_code">
+									<xs:annotation>
+										<xs:documentation>Specifies the ISO 4217 currency code if other than USD </xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ImpactQualification" type="incident:ImpactQualificationEnum" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The ImpactQualification field is optional and summarizes the subjective level of impact of the Incident.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExternalImpactAssessmentModel" type="incident:ExternalImpactAssessmentModelType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The ExternalImpactAssessmentModel field is optional and characterizes impact assessment details utilizing impact assessment characterization models defined external to STIX. It is defined utilizing an abstract type enabling the definition through extension of incident impact assessment models external to STIX.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ImpactLevelEnum">
+		<xs:annotation>
+			<xs:documentation>ImpactLevelEnum is an enumeration of generalized impact levels.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Major">
+				<xs:annotation>
+					<xs:documentation>Specifies a Major level of Impact.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Moderate">
+				<xs:annotation>
+					<xs:documentation>Specifies a Moderate level of Impact.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Minor">
+				<xs:annotation>
+					<xs:documentation>Specifies a Minor level of Impact.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="None">
+				<xs:annotation>
+					<xs:documentation>Specifies no Impact occured.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Unknown">
+				<xs:annotation>
+					<xs:documentation>Specifies and unknown level of Impact occured.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ImpactQualificationEnum">
+		<xs:annotation>
+			<xs:documentation>ImpactQualificationEnum is an enumeration of qualified impact characterization levels.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Insignificant">
+				<xs:annotation>
+					<xs:documentation>Impact absorbed by normal activities.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Distracting">
+				<xs:annotation>
+					<xs:documentation>Limited "hard costs", but impact felt through having to deal with the incident rather than conducting normal duties.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Painful">
+				<xs:annotation>
+					<xs:documentation>Real, but limited (scope, longevity) losses in the form of fines, penalties, market corrections, payouts, productivity losses, reduction in mission capability, etc.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Damaging">
+				<xs:annotation>
+					<xs:documentation>Real and serious effect on the "bottom line" or mission capability.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Unknown">
+				<xs:annotation>
+					<xs:documentation>Level of impact is unknown.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ExternalImpactAssessmentModelType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>The ExternalImpactAssessmentModelType is an abstract type enabling the definition through extension of incident impact assessment models external to STIX.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="model_name" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Specifies the name of the externally defined impact assessment model.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="model_reference" type="xs:anyURI">
+			<xs:annotation>
+				<xs:documentation>Specifies a URL reference for the externally defined impact assessment model.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<!---->
+	<xs:complexType name="COATakenType">
+		<xs:sequence>
+			<xs:element name="Time" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Time field specifies the relative time criteria for this taken CourseOfAction.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="StartTime" type="xs:dateTime" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The StartTime field specifies the time at which the CourseOfAction was begun.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="EndTime" type="xs:dateTime" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The EndTime field specifies the time at which the CourseOfAction was completed.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Contributors" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Contributors field specifies contributing actors for the CourseOfAction taken.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Contributor" type="cyboxCommon:ContributorType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CourseOfAction" type="COA:COAType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The CourseOfAction field specifies the actual CourseOfAction taken.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="JournalEntryType">
+		<xs:annotation>
+			<xs:documentation>The JournalEntryType is optional and provides journal notes for information discovered during the handling of the Incident.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="author" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Specifies the author of the JournalEntry note.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="time" type="xs:dateTime">
+					<xs:annotation>
+						<xs:documentation>Specifies the date and time that the JournalEntry note was written.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+</xs:schema>
