@@ -1,0 +1,3 @@
+SYSTEM "http://scap.nist.gov/schema/cpe/2.0/cpe-language_2.2a.xsd" "includes/cpe-language_2.2a.xsd"
+SYSTEM "http://scap.nist.gov/schema/scap-core/1.0/scap-core_0.9.xsd" "includes/scap-core_0.9.xsd"
+SYSTEM "http://www.icasi.org/CVRF/schema/common/1.1/common.xsd" "includes/common.xsd"
