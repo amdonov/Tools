@@ -20,5 +20,11 @@
             <jxb:property name="xlinkType"/>
         </jxb:bindings>
     </jxb:bindings>
+    
+    <jxb:bindings schemaLocation="STIX-Indicator_v1.1.xsd">
+        <jxb:bindings node="/xs:schema/xs:complexType[1]">
+            <jxb:class name="IndicatorTypeType"/>
+        </jxb:bindings>
+    </jxb:bindings>
 
 </jxb:bindings>
