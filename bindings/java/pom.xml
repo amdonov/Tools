@@ -22,6 +22,7 @@
         <configuration>
           <schemaDirectory>src/main/xsd</schemaDirectory>
           <catalog>src/main/xsd/catalog.txt</catalog>
+          <extension>true</extension>
         </configuration>
       </plugin>
     </plugins>
