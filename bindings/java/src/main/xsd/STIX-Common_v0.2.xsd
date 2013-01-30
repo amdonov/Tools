@@ -226,8 +226,6 @@ from the Traffic Light Protocol (TLP); see US-CERT documentation for authoritati
 	</xs:simpleType>
 	<!---->
 	<xs:complexType name="STIX-CIQ-IdentityType">
-		<xs:complexContent>
-			<xs:restriction base="ciq:PartyType">
 				<xs:sequence>
 					<xs:element ref="ciq:FreeTextLines" minOccurs="0"/>
 					<xs:element ref="ciq:PartyName" minOccurs="0"/>
@@ -293,8 +291,6 @@ from the Traffic Light Protocol (TLP); see US-CERT documentation for authoritati
 						<xs:documentation>Type of Party. e.g. Person or an organisation. An organisation could be university, college, club, association, company, etc</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-			</xs:restriction>
-		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="IdentityType">
 		<xs:complexContent>
